@@ -28,8 +28,7 @@ public class Matrice {
 	}
 
 	private double get(int i, int j) {
-		//todo
-		return 0; // à changer pour le résultat	
+		return m[i][j];
 	}
 	
 	public Vecteur getColumn(int k) {
@@ -37,7 +36,7 @@ public class Matrice {
 		return null; // à changer pour le résultat
 	}
 
-	static Matrice identity(int n) {
+	public static Matrice identity(int n) {
 		//todo
 		Matrice m = new Matrice(new double[n][n]);
 		for (int i = 0; i < n; i++) {
@@ -46,26 +45,67 @@ public class Matrice {
 		return m;
 	}
 
-	public double max(Matrice m, int i) {
-		double res = m.get(i,0);
-  		for ( int j = 1; j < m.dimension-1; j++) {
+	static Matrice exchange(Matrice m, int i, int j) {
+		Matrice res = new Matrice(m.m);
+		double[] temp = res.m[i];
+		res.m[i] = res.m[j];
+		res.m[j] = temp;
+		return res;
+	}
+
+	public Matrice exchangeRows(Matrice m, int j) {
+		double res = m.get(j,j);
+		int change = j;
+		for (int i = j; i < m.dimension; i++) {
 			if (m.get(i,j) > res) {
 				res = m.get(i,j);
+				change = i;
 			}
 		}
-		return null; // à changer pour le résultat
+		m = exchange(m, change,j);
+		return m;
 	}
+
+
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < dimension; i++) {
+			for (int j = 0; j < dimension; j++) {
+				sb.append(m[i][j]);
+				sb.append(" ");
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+
 	public Matrice inverse() {
-		// todo -> calculer l'inverse de this, lorsqu'elle est inversible
 		// retourner l'inverse lorsqu'elle existe et null lorsqu'elle n'existe pas.
 
-		Matrice m = identity(this.dimension);
+		Matrice m_identity = identity(this.dimension);
+		Matrice res = new Matrice(this.m);
 
 		for (int k =0; k < dimension; k++) {
-			
+			// passer la ligne avec le plus grand coefficient pour la colonne j à la ligne i tq i=j
+			res = exchangeRows(res, k);
+
+			if (this.get(k,k) == 0) {
+				return null;
+			}
+
+
+			for (int i = 0; i < dimension; i++) { // pour chaque ligne
+				if (i != k) {
+					double coef = res.get(i,k) / res.get(k,k);
+					for (int j = 0; j < dimension; j++) {
+						res.m[i][j] = res.m[i][j] - coef * res.m[k][j];
+						m_identity.m[i][j] = m_identity.m[i][j] - coef * m_identity.m[k][j];
+					}
+				}
+			}
 		}
 
-		return null; // à changer pour le résultat
+		return res;
 	}
 
 	private void computeDeterminant(int i, int j) {

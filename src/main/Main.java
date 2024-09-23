@@ -2,7 +2,10 @@ package main;
 
 import javax.swing.JFrame;
 
+import algebre.Matrice;
 import ui.MainWindow;
+
+import static algebre.Matrice.identity;
 
 public class Main {
 
@@ -13,6 +16,7 @@ public class Main {
 				JFrame frame = MainWindow.createTrainingWindow(x, y, w, h);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setVisible(true);
+
 			}});
 	}
 }
