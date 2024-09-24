@@ -20,4 +20,4 @@ for k de 0 à n-1:
                     mij -= c*mkj
     else
         print("Matrice singulière")
-        return
+        

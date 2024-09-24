@@ -9,18 +9,15 @@ public class Vecteur2D extends Vecteur {
 	
 // sinus de l'angle du vecteur i (axe des abscisses) à this
 	public double sinus() {
-		//todo		
-		return 0; //à remplacer par le résultat
+		return coords[1] / norme();
 	}
 	
 	public double sinus(Vecteur2D v) {
-		//todo		
-		return 0; //à remplacer par le résultat
+		return det(v) / (norme() * v.norme());
 	}
 	
 	private double det(Vecteur2D v) {
-		//todo		
-		return 0; //à remplacer par le résultat
+		return 0;
 	}
 
 // cosinus de l'angle de i à this

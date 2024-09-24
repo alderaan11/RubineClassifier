@@ -1,5 +1,7 @@
 package algebre;
 
+import static java.lang.Math.sqrt;
+
 public class Vecteur {
 	double coords[];
 	
@@ -30,14 +32,16 @@ public class Vecteur {
 	}
 	
 	public double cosinus(Vecteur v) {
-		//todo
-		return 0; // à changer pour le résultat	
+		return produitScalaire(v) / (norme() * v.norme());
 	}
 	
 
 	public double norme() {
-		//todo
-		return 0; // à changer pour le résultat	
+		double norme = 0;
+		for (double d : this.coords) {
+			norme += d * d;
+		}
+		return sqrt(norme);
 	}
 
 	public double get(int i) {

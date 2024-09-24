@@ -50,10 +50,11 @@ public class Matrice {
 		double[] temp = res.m[i];
 		res.m[i] = res.m[j];
 		res.m[j] = temp;
+
 		return res;
 	}
 
-	public Matrice exchangeRows(Matrice m, int j) {
+	public Matrice[] exchangeRows(Matrice m, int j, Matrice m_identity) {
 		double res = m.get(j,j);
 		int change = j;
 		for (int i = j; i < m.dimension; i++) {
@@ -62,8 +63,11 @@ public class Matrice {
 				change = i;
 			}
 		}
-		m = exchange(m, change,j);
-		return m;
+		m = exchange(m, j, change);
+		m_identity = exchange(m_identity, j, change);
+		System.out.println("Etape " + j + "\nMatrice initiale : " + m.toString());
+		System.out.println("Matrice identité : " + m_identity.toString());
+		return new Matrice[]{m, m_identity};
 	}
 
 
@@ -79,7 +83,7 @@ public class Matrice {
 		return sb.toString();
 	}
 
-	public Matrice inverse() {
+	public Matrice[] inverse() {
 		// retourner l'inverse lorsqu'elle existe et null lorsqu'elle n'existe pas.
 
 		Matrice m_identity = identity(this.dimension);
@@ -87,25 +91,31 @@ public class Matrice {
 
 		for (int k =0; k < dimension; k++) {
 			// passer la ligne avec le plus grand coefficient pour la colonne j à la ligne i tq i=j
-			res = exchangeRows(res, k);
+			Matrice[] matrices = exchangeRows(res, k, m_identity);
+			res = matrices[0];
+			m_identity = matrices[1];
 
 			if (this.get(k,k) == 0) {
 				return null;
 			}
 
+			double coef = res.get(k,k);
+			for(int j = 0; j < dimension; j++) {
+				res.m[k][j] = res.m[k][j] / coef;
+				m_identity.m[k][j] = m_identity.m[k][j] / coef;
+			}
 
 			for (int i = 0; i < dimension; i++) { // pour chaque ligne
-				if (i != k) {
-					double coef = res.get(i,k) / res.get(k,k);
+				if(i!=k) {
+					coef = res.m[i][k];
 					for (int j = 0; j < dimension; j++) {
-						res.m[i][j] = res.m[i][j] - coef * res.m[k][j];
-						m_identity.m[i][j] = m_identity.m[i][j] - coef * m_identity.m[k][j];
+						res.m[i][j] -= (coef * res.m[k][j]);
+						m_identity.m[i][j] -= (coef * m_identity.m[k][j]);
 					}
 				}
 			}
 		}
-
-		return res;
+		return new Matrice[]{res, m_identity};
 	}
 
 	private void computeDeterminant(int i, int j) {
