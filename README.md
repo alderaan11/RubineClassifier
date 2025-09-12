@@ -1,23 +1,46 @@
-# RubineClassifier
-Algebra pratical work
+RubineClassifier
+Overview
+This project implements Rubine's algorithm for gesture classification, developed as part of an algebra practical work. The repository includes an implementation of the Gauss pivot method, which is used as a core component in the gesture classification process.
+Project Description
+The RubineClassifier is designed to classify gestures based on Rubine's algorithm, a method that leverages geometric and kinematic features of gestures for recognition. The project includes an implementation of the Gaussian elimination with partial pivoting (Pivot de Gauss) to solve linear systems, which is integral to the algorithm's functionality.
+Key Features
 
-Algorithm to classify gestures using Rubine's algorithm.
+Gesture Classification: Implements Rubine's algorithm to recognize and classify gestures based on extracted features.
+Gauss Pivot Algorithm: Solves linear systems using Gaussian elimination with partial pivoting to handle matrix operations efficiently.
+Algebraic Foundations: Demonstrates the application of linear algebra concepts in practical gesture recognition tasks.
 
-Pivot de Gauss:
+Gauss Pivot Algorithm
+The repository includes an implementation of the Gauss pivot algorithm (Gaussian elimination with partial pivoting), which is summarized as follows:
 
-for k de 0 à n-1:
-    find p tq (apk) = max(amk)
-    switch line p et line k m appartient [k,n+1] => recherche de pivot
-    if (akk != 0)
-        for (l=0 à n-1):
-            akl /= akk
-            mkl /= akk
-        for (i=0 à n-1):
-            if (i != p)
-                c = aik
-                for j=0 à n-1:
-                    aij -= c*akj
-                    mij -= c*mkj
-    else
-        print("Matrice singulière")
-        
+For each column ( k ) from 0 to ( n-1 ):
+Find the pivot row ( p ) such that ( a_{pk} ) is the maximum in column ( k ) for rows ( m ) from ( k ) to ( n+1 ).
+Swap row ( p ) with row ( k ).
+If the pivot element ( a_{kk} \neq 0 ):
+Normalize row ( k ) by dividing ( a_{kl} ) and ( m_{kl} ) by ( a_{kk} ) for all ( l ) from 0 to ( n-1 ).
+For each row ( i \neq p ):
+Compute ( c = a_{ik} ).
+Update row ( i ): subtract ( c \cdot a_{kj} ) from ( a_{ij} ) and ( c \cdot m_{kj} ) from ( m_{ij} ) for all ( j ).
+
+
+
+
+If ( a_{kk} = 0 ), the matrix is singular, and an error message is printed ("Matrice singulière").
+
+
+
+This algorithm ensures numerical stability by selecting the largest pivot element in each step, which is critical for solving the linear systems involved in Rubine's algorithm.
+Installation
+
+Clone the repository:git clone https://github.com/alderaan11/RubineClassifier.git
+
+
+Navigate to the project directory:cd RubineClassifier
+
+
+Ensure you have the necessary dependencies installed (e.g., any required libraries for gesture processing or matrix computations, depending on the implementation language).
+
+Usage
+
+Prepare Gesture Data: Provide input gesture data in the format expected by the classifier (details depend on the implementation).
+Run the Classifier: Execute the main program to classify gestures using Rubine's algorithm, which internally uses the Gauss pivot method for matrix operations.
+Analyze Results: Review the classification output to evaluate the accuracy of gesture recognition.
